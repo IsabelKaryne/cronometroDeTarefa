@@ -2,30 +2,10 @@
     <div class="box">
         <div class="columns">
             <div class="column is-8" role="form" aria-label="Formulário para criação de uma nova tarefa">
-                <input type="text" class="input" placeholder="Qual tarefa você deseja iniciar?">
+                <input type="text" class="input" placeholder="Qual tarefa você deseja iniciar?" v-model="descricao">
             </div>
             <div class="column">
-                <div class="is-flex is-align-items-center is-justify-content-space-between">
-                    <section>
-                        <strong>
-                            {{ tempoDecorrido }}
-                        </strong>
-                    </section>
-
-                    <button class="button" @click="iniciar">
-                        <span class="icon">
-                            <i class="fas fa-play"></i>
-                        </span>
-                        <span>play</span>
-                    </button>
-
-                    <button class="button" @click="finalizar">
-                        <span class="icon">
-                            <i class="fas fa-stop"></i>
-                        </span>
-                        <span>stop</span>
-                    </button>
-                </div>
+                <temporizadorDeAcoes @temporizadorFinalizado="finalizarTarefa"/>
             </div>
         </div>
     </div>
@@ -33,30 +13,23 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import temporizadorDeAcoes from './temporizador.vue'
 
 export default defineComponent({
-    name: 'meuFormulario',
-    data(){
-        return{
-            tempoEmSegundos: 0,
-            relogio : 0
-        }
+    name: "meuFormulario",
+    components:{
+        temporizadorDeAcoes,
     },
-    computed:{
-        // indicando retornar uma string
-        tempoDecorrido() : string{ 
-            return new Date(this.tempoEmSegundos * 1000).toISOString().substr(11,8)
+    data (){
+        return{
+            descricao:''
         }
     },
     methods:{
-        iniciar(){
-            //começar a contagem
-            setInterval(()=>{
-                this.tempoEmSegundos+= 1
-            }, 1000)
-        },
-        finalizar() : void{
-            clearInterval(this.relogio)
+        finalizarTarefa(tempoDecorrido:number):void{
+            console.log('tempo da tarefa',tempoDecorrido)
+            console.log('descricao da tarefa', this.descricao);
+            this.descricao=''
         }
     }
 })
