@@ -5,21 +5,14 @@
             <span class="icon">
                 <i class="fas fa-play"></i>
             </span>
-            <span>play</span>
+            <span>Iniciar</span>
         </button>
 
-        <button class="button" @click="pausar" :disabled="!crononetroRodando">
+        <button class="button" @click="finalizar" :disabled="!crononetroRodando">
             <span class="icon">
                 <i class="fas fa-pause"></i>
             </span>
-            <span>pause</span>
-        </button>
-
-        <button class="button" @click="finalizar" :enable="fimTempo">
-            <span class="icon">
-                <i class="fas fa-stop"></i>
-            </span>
-            <span>stop</span>
+            <span>Finalizar</span>
         </button>
     </div>
 </template>
@@ -38,7 +31,6 @@ export default defineComponent({
             tempoEmSegundos: 0,
             cronometro : 0,
             crononetroRodando: false,
-            fimTempo: true
         }
     },
     computed:{
@@ -55,17 +47,12 @@ export default defineComponent({
                 this.tempoEmSegundos+= 1
             }, 1000)
         },
-        pausar() : void{
-            this.crononetroRodando = false
-            clearInterval(this.cronometro)
-           
-        },
         finalizar(){
             this.crononetroRodando = false
+            clearInterval(this.cronometro)
             this.$emit('temporizadorFinalizado', this.tempoEmSegundos)
             this.tempoEmSegundos = 0
-        }
-
+        },
     }
 })
 </script>
